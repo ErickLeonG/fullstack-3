@@ -24,8 +24,8 @@ app.use(morgan(':method :url :status :res[content-length] - :response-time ms :b
 
 app.get('/api/persons', (request, response) => {
   Person.find({}).then(persons => {
-      response.json(persons);
-    });
+    response.json(persons)
+  })
 })
 
 app.get('/info', (request, response) => {
@@ -34,7 +34,7 @@ app.get('/info', (request, response) => {
       <div>Phonebook has info for ${persons.length} people</div>
       <div>${new Date()}</div>
     `)
-  });
+  })
 })
 
 app.get('/api/persons/:id', (request, response, next) => {
@@ -45,11 +45,11 @@ app.get('/api/persons/:id', (request, response, next) => {
       response.status(404).end()
     }
   })
-  .catch(error => next(error))
+    .catch(error => next(error))
 })
 
 app.delete('/api/persons/:id', (request, response, next) => {
-  Person.findByIdAndRemove(request.params.id)
+  Person.findByIdAndDelete(request.params.id)
     .then(() => {
       response.status(204).end()
     })
@@ -63,7 +63,7 @@ const generateId = () => {
 
 app.post('/api/persons', (request, response, next) => {
   const body = request.body
-  
+
   if (!body.name || !body.number) {
     return response.status(400).json({ error: 'content missing' })
   }
@@ -77,7 +77,7 @@ app.post('/api/persons', (request, response, next) => {
   person.save().then(savedPerson => {
     response.json(savedPerson)
   })
-  .catch(error => next(error))
+    .catch(error => next(error))
 })
 
 const unknownEndpoint = (request, response) => {
